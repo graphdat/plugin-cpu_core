@@ -1,4 +1,4 @@
-var _conf = require('param.json');
+var _conf = require('./param.json');
 var _os = require('os');
 var _tools = require('graphdat-plugin-tools');
 
