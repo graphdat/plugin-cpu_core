@@ -1,0 +1,25 @@
+{
+	"name": "plugin-cpu_core",
+	"version": "0.0.1",
+	"description": "CPU core plugin for Graphdat",
+	"main": "index.js",
+	"dependencies": {
+		"graphdat-plugin-tools" : "0.0.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/graphdat/plugin-cpu_core"
+	},
+	"keywords": [
+		"graphdat",
+		"plugin",
+		"cpu",
+		"core"
+	],
+	"author": "Graphdat <support@graphdat.com>",
+	"license": "Apache v2",
+	"bugs": {
+		"url": "https://github.com/graphdat/plugin-cpu_core/issues"
+	},
+	"engine": "node >= 0.8.1"
+}

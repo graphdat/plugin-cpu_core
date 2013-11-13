@@ -1,7 +1,9 @@
-
+var _conf = require('param.json');
 var _os = require('os');
+var _tools = require('graphdat-plugin-tools');
+
 var _source = _os.hostname();
-var _interval = parseInt(process.argv[1]) || 1000;
+var _interval =  _conf.pollInterval || 1000;
 
 var _last;
 
@@ -26,8 +28,8 @@ function poll()
 			var user = (e.times.user - l.times.user)  /
 					   (e.total - l.total);
 
-			console.log('CPU_CORE %d %s-C%d',
-				user, _source, idx + 1);
+			if (!isNaN(user))
+				console.log('CPU_CORE %d %s-C%d', user, _source, idx + 1);
 		}
 	}
 
