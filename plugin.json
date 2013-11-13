@@ -1,5 +1,7 @@
 {
     "description" : "Provides per core CPU utilization",
 	"command" : "node index.js $(pollInterval)",
-	"metrics" : ["CPU_CORE"]
+	"metrics" : ["CPU_CORE"],
+	"postExtract" : "npm install",
+	"ignore" : "node_modules"
 }
