@@ -14,6 +14,8 @@ The Boundary CPU Core Plugin reports the CPU utilization of each CPU core indivi
 |:---------|:-------:|:------:|:----:|
 | Required |    +    |        |      |
 
+[How to install node.js?](https://help.boundary.com/hc/articles/202360701)
+
 ### Plugin Setup
 None
 
