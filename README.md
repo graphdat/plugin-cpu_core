@@ -1,17 +1,18 @@
 Boundary CPU Core Plugin
 ------------------------
 
-The Boundary CPU Core Plugin reports the CPU utilization of each CPU core individually.
-Each core is separate source so when graphed, in the legend will be the hostname followed by "-CX" where X is the core index.
-
-### Platforms
-- Windows
-- Linux
-- OS X
-- SmartOS
+The Boundary CPU Core Plugin reports the CPU utilization of each CPU core individually. Each core is separate source so when graphed, in the legend will be the hostname followed by "-CX" where X is the core index.
 
 ### Prerequisites
-- node version 0.8.0 or later
+
+|     OS    | Linux | Windows | SmartOS | OS X |
+|:----------|:-----:|:-------:|:-------:|:----:|
+| Supported |   v   |    v    |    v    |  v   |
+
+
+|  Runtime | node.js | Python | Java |
+|:---------|:-------:|:------:|:----:|
+| Required |    +    |        |      |
 
 ### Plugin Setup
 None
