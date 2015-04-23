@@ -171,7 +171,7 @@ function framework.util.error(errstring)
 end
 
 function framework.util.info(errstring)
-  print("_bevent:"..__pkg..":"..__ver..":"..errstring.."|t:error|tags:"..__tags)
+  print("_bevent:"..__pkg..":"..__ver..":"..errstring.."|t:info|tags:"..__tags)
 end
 
 --- Wraps a function to calculate the time passed between the wrap and the function execution.
@@ -391,7 +391,7 @@ function NetDataSource:fetch(context, callback)
     end
 
   end)
-  socket:on('error', function (err) self:emit('error', 'Socket error: ' .. err.message) end)
+  socket:on('error', function (err) framework.util.error('Socket error: ' .. err.message) end)
 end
 
 framework.NetDataSource = NetDataSource
@@ -482,7 +482,7 @@ function Plugin:error(err)
   else
     msg = tostring(err)
   end
-  print(msg)
+  framework.util.error(msg)
 end
 
 --- Run the plugin and start polling from the configured DataSource
