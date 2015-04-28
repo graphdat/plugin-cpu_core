@@ -1,6 +1,4 @@
-local json = require('json')
 local framework = require('framework.lua')
-
 local Plugin = framework.Plugin
 local MeterDataSource = framework.MeterDataSource
 local string = require('string')
@@ -18,7 +16,6 @@ end
 local meterPlugin = Plugin:new(params, data_source)
 
 function meterPlugin:onParseValues(data)
-  
   local result = {}
   result['CPU_CORE'] = {}
   
@@ -30,7 +27,6 @@ function meterPlugin:onParseValues(data)
   end
 
   return result
-
 end
 
 meterPlugin:run()
