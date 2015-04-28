@@ -1,36 +1,32 @@
-local os = require 'os'
-local boundary = require 'boundary'
-local timer = require 'timer'
+local framework = require('framework.lua')
+local Plugin = framework.Plugin
+local MeterDataSource = framework.MeterDataSource
+local string = require('string')
 
-local param = boundary.param
+local params = framework.params
+params.name = 'Boundary CPU Core'
+params.version = '2.1'
+params.tags = 'cpu,core'
 
-local source = param.source or os.hostname()
-local interval = param.pollInterval or 1000;
+local data_source = MeterDataSource:new()
+function data_source:onFetch(socket)
+  socket:write(self:queryMetricCommand({match = 'system.cpu.usage'}))
+end
 
-local last_cpus = nil
+local meterPlugin = Plugin:new(params, data_source)
 
-timer.setInterval(interval, function()
-  local cpus = os.cpus()
-
-  for _, cpu in ipairs(cpus) do
-    cpu.total = 0
-
-    for name, value in pairs(cpu.times) do
-      cpu.total = cpu.total + value
+function meterPlugin:onParseValues(data)
+  local result = {}
+  result['CPU_CORE'] = {}
+  
+  for _, v in ipairs(data) do
+    local metric, cpu_id = string.match(v.metric, '^(system%.cpu%.usage)|cpu=(%d+)$')
+    if (metric) then
+      table.insert(result['CPU_CORE'], { value = v.value, source = 'C' .. cpu_id, timestamp = v.timestamp })
     end
   end
 
-  if last_cpus then
-    for idx, cpu in ipairs(cpus) do
-      local last_cpu = last_cpus[idx]
+  return result
+end
 
-      local user = (cpu.times.user - last_cpu.times.user) / (cpu.total - last_cpu.total)
-
-      if user == user then
-        print(string.format("CPU_CORE %f %s-C%d", user, source, idx))
-      end
-    end
-  end
-
-  last_cpus = cpus
-end)
+meterPlugin:run()
