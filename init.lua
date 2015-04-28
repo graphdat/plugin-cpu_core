@@ -1,52 +1,32 @@
-local json = require('json')
 local framework = require('framework.lua')
-framework.table()
-framework.util()
-framework.functional()
-local stringutil = framework.string
-
 local Plugin = framework.Plugin
-local NetDataSource = framework.NetDataSource
-local net = require('net')
-require('fun')(true) -- Shows a warn when overriding an existing function.
+local MeterDataSource = framework.MeterDataSource
+local string = require('string')
 
-local items = {}
-
-local params = framework.boundary.param
+local params = framework.params
 params.name = 'Boundary CPU Core'
-params.version = '2.0'
+params.version = '2.1'
+params.tags = 'cpu,core'
 
-items = params.items or items
-
-local meterDataSource = NetDataSource:new('127.0.0.1', '9192')
-
-function meterDataSource:onFetch(socket)
-	socket:write('{"jsonrpc":"2.0","method":"query_metric","id":1,"params":{"match":"system.cpu.usage"}}\n')
+local data_source = MeterDataSource:new()
+function data_source:onFetch(socket)
+  socket:write(self:queryMetricCommand({match = 'system.cpu.usage'}))
 end
 
-local meterPlugin = Plugin:new(params, meterDataSource)
+local meterPlugin = Plugin:new(params, data_source)
 
 function meterPlugin:onParseValues(data)
-	
-	local result = {}
-	local parsed = json.parse(data)
-        if table.getn(parsed.result.query_metric) > 0 then
-		for i = 1, table.getn(parsed.result.query_metric), 3 do
-			if parsed.result.query_metric[i] ~= 'system.cpu.usage.total' then
-				local cpuid = stringutil.urldecode(string.sub(parsed.result.query_metric[i], string.find(parsed.result.query_metric[i], "cpu=")+4, -1))
-				local sourcename=meterPlugin.source.."-C"..cpuid
-				local metric = {}
+  local result = {}
+  result['CPU_CORE'] = {}
+  
+  for _, v in ipairs(data) do
+    local metric, cpu_id = string.match(v.metric, '^(system%.cpu%.usage)|cpu=(%d+)$')
+    if (metric) then
+      table.insert(result['CPU_CORE'], { value = v.value, source = 'C' .. cpu_id, timestamp = v.timestamp })
+    end
+  end
 
-				metric.metric = "CPU_CORE"
-				metric.source = sourcename
-				metric.value = parsed.result.query_metric[i+1]
-				table.insert(result, metric)
-			end
-		end
-	end
-
-	return result	
-
+  return result
 end
 
 meterPlugin:run()
