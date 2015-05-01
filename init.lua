@@ -22,7 +22,7 @@ function meterPlugin:onParseValues(data)
   for _, v in ipairs(data) do
     local metric, cpu_id = string.match(v.metric, '^(system%.cpu%.usage)|cpu=(%d+)$')
     if (metric) then
-      table.insert(result['CPU_CORE'], { value = v.value, source = 'C' .. cpu_id, timestamp = v.timestamp })
+      table.insert(result['CPU_CORE'], { value = v.value, source = meterPlugin.source .. '_C' .. cpu_id, timestamp = v.timestamp })
     end
   end
 
