@@ -636,7 +636,6 @@ end
 -- @type NetDataSource
 local NetDataSource = DataSource:extend()
 function NetDataSource:initialize(host, port)
-
   self.host = host
   self.port = port
 end
