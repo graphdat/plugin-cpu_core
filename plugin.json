@@ -1,25 +1,25 @@
 {
-    "description" : "Provides per core CPU utilization",
-    "command" : "node index.js $(pollInterval)",
-    "command_lua" : "boundary-meter init.lua",
-    "postExtract" : "npm install",
-    "postExtract_lua" : "",
-    "ignore" : "node_modules",
-    "metrics" : ["CPU_CORE"],
-    "paramSchema": [
-	{
-	    "title": "Poll Interval",
-	    "name": "pollInterval",
-	    "description": "How often (in milliseconds) to poll the system for metrics (default: 1000).",
-	    "type" : "integer",
-	    "default" : 1000,
-	    "required" : false
-	},
-	{
-	    "title" : "Source",
-	    "name" : "source",
-	    "description" : "The Source to display in the legend for the CPU Core data.  It will default to the hostname of the server",
-	    "type" : "string"
-	}
-    ]
+  "description" : "Provides per core CPU utilization",
+  "command" : "node index.js $(pollInterval)",
+  "command_lua" : "boundary-meter init.lua",
+  "postExtract" : "npm install",
+  "postExtract_lua" : "",
+  "ignore" : "node_modules",
+  "metrics" : ["CPU_CORE"],
+  "paramSchema": [
+    {
+      "title": "Poll Interval",
+      "name": "pollInterval",
+      "description": "How often (in milliseconds) to poll the system for metrics (default: 1000).",
+      "type" : "integer",
+      "default" : 1000,
+      "required" : false
+    },
+    {
+      "title": "Source",
+      "name": "source",
+      "description": "The Source to display in the legend for the CPU Core data.  It will default to the hostname of the server",
+      "type": "string"
+    }
+  ]
 }
