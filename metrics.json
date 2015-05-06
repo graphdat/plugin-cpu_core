@@ -1,0 +1,10 @@
+{
+  "CPU_CORE": {
+    "defaultAggregate": "AVG",
+    "defaultResolutionMS": 1000,
+    "description": "Per core CPU utilization",
+    "displayName": "Per core CPU utilization",
+    "displayNameShort": "CPU Core",
+    "unit": "percent"
+  }
+}
