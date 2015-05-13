@@ -1,7 +1,8 @@
 local framework = require('framework.lua')
 local Plugin = framework.Plugin
 local MeterDataSource = framework.MeterDataSource
-local string = require('string')
+local each = framework.functional.each
+local pack = framework.util.pack
 
 local params = framework.params
 params.name = 'Boundary CPU Core'
@@ -13,20 +14,19 @@ function data_source:onFetch(socket)
   socket:write(self:queryMetricCommand({match = 'system.cpu.usage'}))
 end
 
-local meterPlugin = Plugin:new(params, data_source)
+local plugin = Plugin:new(params, data_source)
 
-function meterPlugin:onParseValues(data)
+function plugin:onParseValues(data)
   local result = {}
-  result['CPU_CORE'] = {}
   
-  for _, v in ipairs(data) do
-    local metric, cpu_id = string.match(v.metric, '^(system%.cpu%.usage)|cpu=(%d+)$')
-    if (metric) then
-      table.insert(result['CPU_CORE'], { value = v.value, source = meterPlugin.source .. '_C' .. cpu_id, timestamp = v.timestamp })
+  each(function (v, i) 
+    local metric, cpu_id = v.metric:match('^(system%.cpu%.usage)|cpu=(%d+)$')
+    if metric then
+      table.insert(result, pack('CPU_CORE', v.value, v.timestamp, plugin.source .. '_C' .. cpu_id))
     end
-  end
+  end, data)
 
   return result
 end
 
-meterPlugin:run()
+plugin:run()
