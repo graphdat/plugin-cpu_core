@@ -1,4 +1,7 @@
 {
+  "name" : "Boundary CPU Core",
+  "version" : "2.1",
+  "tags" : "cpu,core",
   "description" : "Provides per core CPU utilization",
   "command" : "node index.js $(pollInterval)",
   "command_lua" : "boundary-meter init.lua",

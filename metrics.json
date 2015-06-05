@@ -5,6 +5,7 @@
     "description": "Per core CPU utilization",
     "displayName": "Per core CPU utilization",
     "displayNameShort": "CPU Core",
+    "isDisabled": 0,
     "unit": "percent"
   }
 }
